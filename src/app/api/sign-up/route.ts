@@ -21,6 +21,8 @@ export async function POST(request: Request){
         const verifyCode = Math.floor(100000 + Math.random() * 900000).toString()
 
         if(existingUserByEmail){
+            
+            
             if(existingUserByEmail.isVerified){
                 return Response.json({success: false, message: "Email already exists"}, {status: 400})
             } else{
@@ -31,11 +33,12 @@ export async function POST(request: Request){
                 await existingUserByEmail.save()
             }
         } else{
+            
            const hashedPassword =  await bcrypt.hash(password, 10)
            const expiryDate = new Date()
            expiryDate.setHours(expiryDate.getHours() + 1)
 
-           const newUser = await new UserModel(
+           const newUser =  new UserModel(
                 {
                      username,
                      email,
@@ -48,7 +51,7 @@ export async function POST(request: Request){
                     
                 }
               )
-              newUser.save()
+              await newUser.save()
               // send verification email
               const emailResponse = await sendVerificationEmail(
                 email,
@@ -57,7 +60,7 @@ export async function POST(request: Request){
               )
 
               if(!emailResponse.success){
-                return Response.json({success: false, message: "Error sending verification email"}, {status: 500})
+                return Response.json({success: false, message: emailResponse.message}, {status: 500})
               }
                 return Response.json({success: true, message: "User created successfully, check your email to verify your account"}, {status: 201})
 

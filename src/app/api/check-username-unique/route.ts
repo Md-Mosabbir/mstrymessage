@@ -26,7 +26,7 @@ export async function GET(request: Request){
         if(!result.success){
             const  usernameErrors = result.error.format().username?._errors || []
 
-            return Response.json({success: false, message: "Invalid query parameters", errors: usernameErrors}, {status: 400})
+            return Response.json({success: false, message: usernameErrors, errors: usernameErrors}, {status: 400})
 
         }
 
