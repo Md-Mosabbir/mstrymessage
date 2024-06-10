@@ -3,7 +3,8 @@
 'use client'
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useState } from "react"
+import Link from 'next/link';
+
 import { useForm } from "react-hook-form"
 import {z}  from "zod"
 
@@ -17,9 +18,6 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { signInSchema } from "@/schemas/signInSchema"
 import { signIn } from "next-auth/react"
-
-
-
 
 
 
@@ -48,6 +46,8 @@ const page = () => {
 
   const onSubmit = async (data: z.infer<typeof signInSchema>) => {
     
+    
+    
 
     
     const result = await signIn('credentials', {
@@ -70,6 +70,8 @@ const page = () => {
     if(result?.url){
       
       router.replace('/dashboard')
+     
+      
       
          
             
@@ -125,6 +127,15 @@ const page = () => {
 
           
         </Form>
+
+        <div className="text-center mt-4">
+          <p>
+            Not a member yet?{' '}
+            <Link href="/sign-up" className="text-blue-600 hover:text-blue-800">
+              Sign up
+            </Link>
+          </p>
+        </div>
 
         
 
