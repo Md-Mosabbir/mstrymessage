@@ -43,35 +43,43 @@ const MessageCard = ({message, onMessageDelete}: MessageCardProps ) => {
         onMessageDelete(message._id)
 
     }
-  return (
-    <Card>
+    return (
+      <Card className="card-bordered">
         <CardHeader>
-            <CardTitle>Card Title</CardTitle>
+          <div className="flex justify-between items-center">
+            <CardTitle>{message.content}</CardTitle>
             <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button variant="destructive"><X className="w-5 h-5"/> </Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDeleteConfirm}>Continue</AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
-            <CardDescription>Card Description</CardDescription>
+              <AlertDialogTrigger asChild>
+                <Button variant='destructive'>
+                  <X className="w-5 h-5" />
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete
+                    this message.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>
+                    Cancel
+                  </AlertDialogCancel>
+                  <AlertDialogAction onClick={handleDeleteConfirm}>
+                    Continue
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
+          <div className="text-sm">
+          {message.createdAt.toLocaleString().replace('T', ' ').split('.')[0]}
+          </div>
         </CardHeader>
-    
-  
-    </Card>
-
-  )
+        <CardContent></CardContent>
+      </Card>
+    );
 }
 
 export default MessageCard

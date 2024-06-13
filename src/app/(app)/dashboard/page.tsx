@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 'use client';
 
 import MessageCard from '@/components/MessageCard';
@@ -40,7 +41,7 @@ function page() {
     setIsSwitchLoading(true);
     try {
       const response = await axios.get<ApiResponse>('/api/accept-messages');
-      setValue('acceptMessages', response.data.isAcceptingMessages);
+      setValue('acceptMessages', response.data.isAcceptingMessage);
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       toast({
@@ -68,6 +69,8 @@ function page() {
             description: 'Showing latest messages',
           });
         }
+        
+        
       } catch (error) {
         const axiosError = error as AxiosError<ApiResponse>;
         toast({
@@ -89,6 +92,9 @@ function page() {
     if (!session || !session.user) return;
 
     fetchMessages();
+
+    
+    
 
     fetchAcceptMessages();
   }, [session, setValue, toast, fetchAcceptMessages, fetchMessages]);
@@ -178,8 +184,8 @@ function page() {
         )}
       </Button>
       <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
-        {messages.length > 0 ? (
-          messages.map((message, index) => (
+      {messages.length > 0 ? (
+          messages.map((message) => (
             <MessageCard
               key={message._id}
               message={message}

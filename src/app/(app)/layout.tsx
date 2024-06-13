@@ -16,16 +16,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
+  return (    
 
-      <body className={inter.className}>
-        <Navbar/>
-        {children}
+    <div className="flex flex-col min-h-screen">
+      <Navbar/>
+      {children}
 
-      </body>
-
-      
-    </html>
-  );
+    </div>      
+    
+  )
 }

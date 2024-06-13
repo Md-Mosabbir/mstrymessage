@@ -4,6 +4,8 @@ import bcrypt from "bcryptjs";
 import { sendVerificationEmail } from "@/helpers/sendVerificationEmail";
 
 export async function POST(request: Request){
+    // connects to db
+
     await dbConnect();
 
     try {
@@ -13,6 +15,7 @@ export async function POST(request: Request){
         const existingUserVerifiedByUsername = await UserModel.findOne({username, isVerified: true})
 
         if(existingUserVerifiedByUsername){
+            // Response sends the response -- DAAH!
             return Response.json({success: false, message: "Username already exists"}, {status: 400})
         }
 
@@ -20,8 +23,7 @@ export async function POST(request: Request){
         
         const verifyCode = Math.floor(100000 + Math.random() * 900000).toString()
 
-        if(existingUserByEmail){
-            
+        if(existingUserByEmail){            
             
             if(existingUserByEmail.isVerified){
                 return Response.json({success: false, message: "Email already exists"}, {status: 400})
