@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 'use client';
-
-import MessageCard from '@/components/MessageCard';
+import  MessageCard  from '@/components/MessageCard';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
@@ -41,7 +40,7 @@ function page() {
     setIsSwitchLoading(true);
     try {
       const response = await axios.get<ApiResponse>('/api/accept-messages');
-      setValue('acceptMessages', response.data.isAcceptingMessage);
+      setValue('acceptMessages', response.data.isAcceptingMessages);
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       toast({
@@ -54,7 +53,7 @@ function page() {
     } finally {
       setIsSwitchLoading(false);
     }
-  }, [setValue, toast]);
+  }, [setValue, toast ]);
 
   const fetchMessages = useCallback(
     async (refresh: boolean = false) => {
@@ -69,8 +68,6 @@ function page() {
             description: 'Showing latest messages',
           });
         }
-        
-        
       } catch (error) {
         const axiosError = error as AxiosError<ApiResponse>;
         toast({
@@ -93,11 +90,9 @@ function page() {
 
     fetchMessages();
 
-    
-    
-
     fetchAcceptMessages();
-  }, [session, setValue, toast, fetchAcceptMessages, fetchMessages]);
+       
+  }, [session, setValue, toast, fetchAcceptMessages, fetchMessages, acceptMessages]);
 
   // Handle switch change
   const handleSwitchChange = async () => {
@@ -106,6 +101,8 @@ function page() {
         acceptMessages: !acceptMessages,
       });
       setValue('acceptMessages', !acceptMessages);
+      console.log("After fetch", acceptMessages);
+      
       toast({
         title: response.data.message,
         variant: 'default',
@@ -184,8 +181,8 @@ function page() {
         )}
       </Button>
       <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
-      {messages.length > 0 ? (
-          messages.map((message) => (
+        {messages.length > 0 ? (
+          messages.map((message, index) => (
             <MessageCard
               key={message._id}
               message={message}

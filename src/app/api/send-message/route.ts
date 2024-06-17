@@ -15,7 +15,7 @@ export async function POST(request: Request){
             return Response.json({success: false, message: "User not found"}, {status: 404})
         }
 
-        if(!user.isAcceptingMessage){
+        if(!user.isAcceptingMessages){
             return Response.json({success: false, message: "User not accepting messages"}, {status: 403})
         }
 

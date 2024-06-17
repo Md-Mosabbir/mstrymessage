@@ -1,12 +1,13 @@
 import OpenAI from 'openai';
 import { OpenAIStream, StreamingTextResponse } from 'ai';
+import { NextResponse } from 'next/server';
  
 // Create an OpenAI API client (that's edge friendly!)
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
  
-export const dynamic = 'force-dynamic';
+export const runtime = 'edge';
  
 export async function POST(req: Request) {
   try {
@@ -32,7 +33,11 @@ export async function POST(req: Request) {
        
         const { name, status, headers, message } = error
 
-        return new Response(JSON.stringify({name, status, headers, message}),  {status: 500})
+        
+
+        return NextResponse.json({ name, status, headers, message }, { status });
+        
+        
 
 
     } else {
